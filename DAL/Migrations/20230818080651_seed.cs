@@ -7,7 +7,7 @@
 namespace DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Seed : Migration
+    public partial class seed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

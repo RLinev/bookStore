@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Z0UPEiasEdWgwRnpfxKBXhKf5DpnlWCSfrRNb6vxOPaJk59SAGCRUtvCnnV/64UldxxOh7RIcDmkZw2uuJ/bgw==",
+  "dgSpecHash": "Ate5lMMk000qVEHetXUiszV8G0dFkkBF6yhTY9vw4aA1gtT5QRKZP4as8iqA//zXDyQos7EnPeFJXeXTSEVvgw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Radko\\source\\repos\\BookStore\\DAL\\DAL.csproj",
+  "projectFilePath": "C:\\Users\\Radko\\Desktop\\New folder\\books\\bookStore\\DAL\\DAL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Radko\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Radko\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.10\\microsoft.data.sqlite.core.7.0.10.nupkg.sha512",
