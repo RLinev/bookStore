@@ -1,0 +1,207 @@
+<html>
+<head>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand fs-1" href="#"(click)="navigateBackToBooks()" >Book store</a>
+      </div>
+      <div  id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#" (click)="navigateToLogin()" *ngIf="index != 0"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid text-center">
+    <div class="row content">
+      <div class="col-sm-1 ">
+
+      </div>
+      <div class="col-sm-10 text-left">
+        <!--Login page-->
+        <div class="row">
+          <div class="col-sm-4">&nbsp;</div>
+          <div class="col-sm-4">
+            <ng-container style="width:100%" *ngIf="index == 0">
+              <div style="display:grid;">
+                <input type="text" [(ngModel)]="loginEmail" class="login-element" placeholder="Please enter your email" />
+                <input type="text" [(ngModel)]="loginPswd" class="login-element" placeholder="Please enter your password" />
+                <button [disabled]="!loginPswd" (click)="login(loginEmail, loginPswd)" class="login-element">Enter</button>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-sm-4"></div>
+        </div>
+        <!--Book list-->
+        <ng-container *ngIf="index == 1">
+          <div id="wrapper">
+            <button (click)="navigateToCheckout(booksToBuy)" [disabled]="booksToBuy.length == 0" id="basket">Basket:{{booksToBuy.length}}</button>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 p-0 text-left">
+              <p class="p-0">Search by title: <input type="text" [(ngModel)]="title" class="toolbarFilterTextBox" (keyup)="refresh()" />  </p>
+            </div>
+            <div class="col-sm-5 p-0 text-left">
+              <p class="price-label"> Price between: <input type="number" [(ngModel)]="priceFrom" class="2" (keyup)="refresh()" /> and <input (keyup)="refresh()" type="number" [(ngModel)]="priceTo" class="2" /></p>
+            </div>
+          </div>
+          <div class="row"><div class="col-sm-1 addNewBookBtn"><button *ngIf="isAdmin" (click)="openNewBook()">Add New Book</button></div></div>
+            <table class="books" *ngIf="books">
+              <thead>
+                <tr>
+                  <th class="headers">Title</th>
+                  <th class="headers">Description</th>
+                  <th class="headers">Summary Description</th>
+                  <th class="headers">ISBN</th>
+                  <th class="headers">Book Image</th>
+                  <th class="headers">Author</th>
+                  <th class="headers">Year</th>
+                  <th class="headers">Price</th>
+                  <th class="headers">Number Of Pages</th>
+                  <th class="headers">Quantity</th>
+                  <th class="headers">Number Of Purchases</th>
+                  <th class="headers"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let book of books">
+                  <td class="rows">{{ book.title }}</td>
+                  <td class="rows">{{ book.description }}</td>
+                  <td class="rows">{{ book.summaryDescription }}</td>
+                  <td class="rows">{{ book.isbn }}</td>
+                  <td class="rows">
+                    <img class="book-cover" src="/assets/{{book.bookImage}}.jpg" />
+                  </td>
+                  <td class="rows">{{ book.author }}</td>
+                  <td class="rows">{{ book.year }}</td>
+                  <td class="rows">{{ book.price }}</td>
+                  <td class="rows">{{ book.numberOfPages }}</td>
+                  <td class="rows" [ngClass]="{'limitedquantity': book.quantity < 3}">{{ book.quantity }}</td>
+                  <td class="rows">{{ book.numberOfPurchases }}</td>
+                  <td class="rows">
+                    <button *ngIf="!isAdmin" (click)="buyBook($event,book)">Buy</button>
+                    <button *ngIf="isAdmin" (click)="editBook($event,book)">Edit</button>
+                    <button *ngIf="isAdmin" (click)="deleteBook($event,book)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+</ng-container>
+
+        <!--Checkout page-->
+        <ng-container *ngIf="index == 2">
+          <button class="backToBooksBtn" (click)="navigateBackToBooks()" id="books">Back to books</button>
+          <div class="basketResult">
+            <table class="books" *ngIf="books">
+              <thead>
+                <tr>
+                  <th class="headers">Title</th>
+                  <th class="headers">Summary Description</th>
+                  <th class="headers">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let book of booksToBuy">
+                  <td class="rows">{{ book.title }}</td>
+                  <td class="rows">{{ book.summaryDescription }}</td>
+                  <td class="rows">{{ book.price }}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+              <th colspan="2" style="text-align:right">Total:</th>
+              <th> {{sumOfAllBooksForOrder}}</th>
+              </tfoot>
+            </table>
+          </div>
+        </ng-container>
+        <!--Add/Edit page-->
+
+        <ng-container #edit *ngIf="index == 3">
+          <button (click)="navigateBackToBooks()" id="books">Back to books</button>
+          <div class="addEditForm">
+            <span class="editLabel">
+              Title:
+            </span>
+            <input type="text" class="form-control" id="title"
+                   required
+                   [(ngModel)]="bookToAddEdit.title" name="title">
+            <span class="editLabel">
+              Description:
+            </span>
+            <textarea type="text" class="form-control" id="description"
+                      required
+                      [(ngModel)]="bookToAddEdit.description" name="description"></textarea>
+            <span class="editLabel">
+              Summary Description:
+            </span>
+            <input type="text" class="form-control" id="summaryDescription"
+                   required
+                   [(ngModel)]="bookToAddEdit.summaryDescription" name="summaryDescription">
+            <span class="editLabel">
+              ISBN:
+            </span>
+            <input type="text" class="form-control" id="isbn"
+                   required
+                   [(ngModel)]="bookToAddEdit.isbn" name="isbn">
+            <span class="editLabel">
+              Book Cover Image:
+            </span>
+            <input type="file" class="form-control" id="bookImage" accept=".jpg" #coverPhoto
+                   required
+                   [(ngModel)]="bookToAddEdit.bookImage" name="bookImage">
+            <span class="editLabel">
+              Author:
+            </span>
+            <input type="text" class="form-control" id="author"
+                   required
+                   [(ngModel)]="bookToAddEdit.author" name="author">
+            <span class="editLabel">
+              Year:
+            </span>
+            <input type="number" class="form-control" id="year"
+                   required
+                   [(ngModel)]="bookToAddEdit.year" name="year">
+            <span class="editLabel">
+              Price:
+            </span>
+            <input type="number" step=".01" class="form-control" id="price"
+                   required
+                   [(ngModel)]="bookToAddEdit.price" name="price">
+            <span class="editLabel">
+              Number of Pages:
+            </span>
+            <input type="number" class="form-control" id="numberOfPages"
+                   required
+                   [(ngModel)]="bookToAddEdit.numberOfPages" name="numberOfPages">
+            <span class="editLabel">
+              Quantity:
+            </span>
+            <input type="number" class="form-control" id="quantity"
+                   required
+                   [(ngModel)]="bookToAddEdit.quantity" name="quantity">
+            <span class="editLabel">
+              Number of Purchases:
+            </span>
+            <input type="number" class="form-control" id="numberOfPurchases"
+                   required
+                   [(ngModel)]="bookToAddEdit.numberOfPurchases" name="numberOfPurchases">
+            <button class="button editLabel" type="submit" (click)="save($event)">Save</button>
+          </div>
+          <div class="col-sm-2 sidenav">
+            <div>
+              <button>Checkout</button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+
+  </body>
+</html>
+

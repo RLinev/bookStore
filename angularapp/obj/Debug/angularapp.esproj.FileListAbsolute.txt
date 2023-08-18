@@ -1,0 +1,1 @@
+C:\Users\Radko\source\repos\BookStore\angularapp\obj\Debug\angularapp.esproj.CoreCompileInputs.cache

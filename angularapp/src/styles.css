@@ -1,0 +1,60 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+/* You can add global styles to this file, and also import other style files */
+.books {
+  text-align: center;
+  border-collapse: collapse;
+}
+  .books th {
+    font-size: 18px;
+    font-style: italic;
+    padding: 5px;
+    background-color: darkgrey
+  }
+  .books td {
+    border: 1px solid black;
+  }
+.books tr:nth-child(even){
+    background-color:lightgray
+}
+.limitedquantity {
+  background-color: palevioletred;
+  font-weight:800;
+}
+#basket{
+    float:right
+}
+#tableLabel{
+    float:left
+}
+.basketResult{
+    margin-top:30px;
+}
+
+.book-cover{
+    width: 40px;
+}
+.addEditForm {
+  display: grid;
+  width: 300px;
+
+}
+.editLabel{
+    margin-top:10px;
+}
+.addNewBookBtn {
+  width: 150px !important;
+  float:left;
+  margin-bottom:20px;
+}
+.login-element{
+    margin-top:10px;
+}
+.price-label{
+    margin-left:10px;
+}
+.text-left{
+    text-align:left
+}
+.backToBooksBtn{
+    width:200px;
+}
